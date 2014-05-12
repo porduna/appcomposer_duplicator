@@ -1,6 +1,7 @@
 package appcomposer;
 
 import java.net.UnknownHostException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -10,7 +11,8 @@ import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
+import com.mongodb.MongoCredential;
+import com.mongodb.ServerAddress;
 import com.mongodb.util.JSON;
 
 /**
@@ -22,28 +24,41 @@ public class AppTranslator implements IAppTranslator {
 
 	public static final String DB_NAME = "appcomposerdb";
 	public static final String COLLECTION = "bundles";
-	
-	private final MongoClientURI clientUri;
+
+	private final String dbName;
+	private final String host;
+	private final int port;
+	private final MongoCredential credential;
 	private MongoClient mongoClient = null;
 	private DBCollection bundles = null;
 	
 	public AppTranslator() {
-		this("localhost", 27017, null, null);
+		this("localhost", 27017, null, null, AppTranslator.DB_NAME);
 	}
 	
 	public AppTranslator(String host, int port, String username, String password) {
-		if (username != null && password != null) {
-			this.clientUri = new MongoClientURI("mongodb://" + username + ":" + password + "@" + host + ":" + port + "/"); 
-		} else {
-			this.clientUri = new MongoClientURI("mongodb://" + host + ":" + port + "/");
-		}
+		this(host, port, username, password, AppTranslator.DB_NAME);
+	}
+	
+	public AppTranslator(String host, int port, String username, String password, String dbName) {
+		this.dbName = dbName;
+		this.host = host;
+		this.port = port;
+		if (username != null && password != null)
+			this.credential = MongoCredential.createMongoCRCredential(username, dbName, password.toCharArray());
+		else
+			this.credential = null;
 	}
 	
 	@Override
 	public void connect() throws AppComposerException {
-		 try {
-			this.mongoClient = new MongoClient( this.clientUri );
-			final DB db  = mongoClient.getDB( AppTranslator.DB_NAME );
+		try {
+			if (this.credential != null)
+				this.mongoClient = new MongoClient( new ServerAddress(this.host, this.port), Arrays.asList(this.credential));
+			else
+				this.mongoClient = new MongoClient( this.host, this.port );
+		
+			final DB db  = mongoClient.getDB( this.dbName );
 			this.bundles = db.getCollection(AppTranslator.COLLECTION);
 		} catch (UnknownHostException e) {
 			throw new AppComposerException("Error connecting to MongoDB", e);
