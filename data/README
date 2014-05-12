@@ -1,0 +1,1 @@
+mongoimport --host localhost --db appcomposerdb --collection bundles --jsonArray < bundles
