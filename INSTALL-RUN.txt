@@ -22,9 +22,13 @@ The service (once started) runs on http://localhost:8182/serve
 How to compile it?
 ------------------
 
-To compile you can use the maven pom.xml file that is provided. To clean the previous compile, package and create daemon scripts you can run (in the directory where the pom.xml file is)
+To compile you can use the maven pom.xml file that is provided. To clean the previous compile, package and create daemon scripts you can run (in the directory where the pom.xml file is).
 
 mvn -e clean package appassembler:generate-daemons
+
+Next make a directory 'logs' in 'target/appassembler/jsw/appcompdupe/':
+
+mkdir target/appassembler/jsw/appcompdupe/logs
 
 This will generate scripts to start and stop the deamon service in:
 
@@ -47,3 +51,9 @@ appcompdupe console
 You can test the service on the commandline as follows:
 
 curl -v -L -G -d "app_url=http://go-lab.gw.utwente.nl/production/conceptmapper_v1/tools/conceptmap/src/main/webapp/conceptmapper.xml&lang=es_ALL&target=ALL" http://localhost:8182/serve
+
+
+Potential issues:
+-----------------
+
+Maybe the daemon wrapper might be only useful
