@@ -12,11 +12,11 @@ import appcomposer.IAppTranslator;
  * 
  * @author Pablo Orduña <pablo.orduna@deusto.es>
  */
-class RestletMain {
+public class RestletMain {
 
 	public static void main(String[] args) throws Exception {
-		// final IAppTranslator translator = new AppTranslator(host, port, username, password);
-		final IAppTranslator translator = new AppTranslator();
+		//final IAppTranslator translator = new AppTranslator();
+        final AppTranslator translator = new AppTranslator("ds049288.mongolab.com", 49288, "deusto", "t3stingmongolab");
 		translator.connect();
 		
 		final Component component = new Component();

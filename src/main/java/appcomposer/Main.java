@@ -2,10 +2,11 @@ package appcomposer;
 
 import java.util.Map;
 
-class Main {
+public class Main {
 
 	public static void main(String [] args) throws Exception {
-		final AppTranslator translator = new AppTranslator();
+		//final AppTranslator translator = new AppTranslator();
+        final AppTranslator translator = new AppTranslator("ds049288.mongolab.com", 49288, "deusto", "t3stingmongolab");
 		// Alternatively use:
 		// final AppTranslator translator = new AppTranslator(host, port, username, password);
 		
