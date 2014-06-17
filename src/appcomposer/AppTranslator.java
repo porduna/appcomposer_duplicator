@@ -77,11 +77,18 @@ public class AppTranslator implements IAppTranslator {
 	
 	@Override
 	public Map<String, String> translate(String url, String lang, String targetAge) throws AppComposerException {
+		if (lang.length() == 2) {
+			lang = lang + "_ALL";
+		}
 		return translate(url, lang + "_" + targetAge);
 	}
 
 	@Override
 	public Map<String, String> translate(String url, String bundle) throws AppComposerException {
+		if (bundle.split("_").length == 2) {
+			// e.g., en_16years converts into en_ALL_16years 
+			bundle = bundle.replace("_", "_ALL_");
+		}
 		if (!isConnected())
 			throw new AppComposerException("AppTranslator not connected. Did you call connect?");
 		
