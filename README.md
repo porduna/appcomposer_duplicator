@@ -15,7 +15,7 @@ target provides the target group for which you want to get a translation. The ta
 The service (once started) runs on http://localhost:8182/serve
 
 Instructions:
-=============
+-------------
 
  1. Install MongoDB
  2. Import the sample data (mongoimport --host localhost --db appcomposerdb --collection bundles --jsonArray < data/bundles)
@@ -23,7 +23,7 @@ Instructions:
  4. Compile and run (See instructions below)
 
 How to compile it?
-==================
+------------------
 
 To compile you can use the maven pom.xml file that is provided. To clean the previous compile, package and create daemon scripts you can run (in the directory where the pom.xml file is).
 
@@ -68,14 +68,14 @@ You can test the service on the commandline as follows:
     curl -v -L -G -d "app_url=http://go-lab.gw.utwente.nl/production/conceptmapper_v1/tools/conceptmap/src/main/webapp/conceptmapper.xml&lang=es_ALL&target=ALL" http://localhost:8182/serve
 
 Credentials
-===========
+-----------
 
 If you need to setup credentials or a different host, use the following constructor instead of the default one:
 
     final IAppTranslator translator = new AppTranslator(host, port, username, password);
 
 Potential issues:
-=================
+-----------------
 
 Maybe the daemon wrapper might be only useful
 
