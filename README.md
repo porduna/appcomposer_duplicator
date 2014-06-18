@@ -27,40 +27,48 @@ How to compile it?
 
 To compile you can use the maven pom.xml file that is provided. To clean the previous compile, package and create daemon scripts you can run (in the directory where the pom.xml file is).
 
-mvn -e clean package appassembler:generate-daemons
+    mvn -e clean package appassembler:generate-daemons
 
 Next make a directory 'logs' in 'target/appassembler/jsw/appcompdupe/':
 
-mkdir target/appassembler/jsw/appcompdupe/logs
+    mkdir target/appassembler/jsw/appcompdupe/logs
 
 This will generate scripts to start and stop the deamon service in:
 
-target/appassembler/jsw/appcompdupe/bin
+    target/appassembler/jsw/appcompdupe/bin
 
 You can run the service with:
-target/appassembler/jsw/appcompdupe/bin/appcompdupe start
+
+    target/appassembler/jsw/appcompdupe/bin/appcompdupe start
+    
 and stop with:
-target/appassembler/jsw/appcompdupe/bin/appcompdupe start
+
+    target/appassembler/jsw/appcompdupe/bin/appcompdupe start
+    
 In case you want to see what happens on the commandline of the service you can start it with 
-target/appassembler/jsw/appcompdupe/bin/appcompdupe console
+
+    target/appassembler/jsw/appcompdupe/bin/appcompdupe console
+    
 (use ctrl+c to shut it down)
 
 ALTERNATIVELY:
+
 You can use the symbolic link provided in the same directory as the pom.xml file and do:
-appcompdupe start
-appcompdupe stop
-appcompdupe console
+
+    appcompdupe start
+    appcompdupe stop
+    appcompdupe console
 
 You can test the service on the commandline as follows:
 
-curl -v -L -G -d "app_url=http://go-lab.gw.utwente.nl/production/conceptmapper_v1/tools/conceptmap/src/main/webapp/conceptmapper.xml&lang=es_ALL&target=ALL" http://localhost:8182/serve
+    curl -v -L -G -d "app_url=http://go-lab.gw.utwente.nl/production/conceptmapper_v1/tools/conceptmap/src/main/webapp/conceptmapper.xml&lang=es_ALL&target=ALL" http://localhost:8182/serve
 
 Credentials
 ===========
 
 If you need to setup credentials or a different host, use the following constructor instead of the default one:
 
-   final IAppTranslator translator = new AppTranslator(host, port, username, password);
+    final IAppTranslator translator = new AppTranslator(host, port, username, password);
 
 Potential issues:
 =================
