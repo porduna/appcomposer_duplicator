@@ -37,6 +37,10 @@ This will generate scripts to start and stop the deamon service in:
 
     target/appassembler/jsw/appcompdupe/bin
 
+In Linux, you might need to grant execution permission to the files in this directory:
+
+    chmod +x target/appassembler/jsw/appcompdupe/bin/*
+
 You can run the service with:
 
     target/appassembler/jsw/appcompdupe/bin/appcompdupe start
