@@ -41,20 +41,60 @@
         <pluginManagement>
             <plugins>
                 <plugin>
-                    <artifactId>maven-assembly-plugin</artifactId>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>appassembler-maven-plugin</artifactId>
+                    <version>1.8</version>
+                    <configuration>
+                        <daemons>
+                            <daemon>
+                                <id>appcompdupe</id>
+                                <mainClass>http.RestletMain</mainClass>
+                                <commandLineArguments>
+                                    <commandLineArgument>start</commandLineArgument>
+                                </commandLineArguments>
+                                <platforms>
+                                    <platform>jsw</platform>
+                                </platforms>
+                            </daemon>
+                        </daemons>
+                        <target>${project.build.directory}/appassembler</target>
+                    </configuration>
                     <executions>
                         <execution>
+                            <id>generate-jsw-scripts</id>
                             <phase>package</phase>
                             <goals>
-                                <goal>single</goal>
+                                <goal>generate-daemons</goal>
                             </goals>
                         </execution>
                     </executions>
-                    <configuration>
-                        <descriptorRefs>
-                            <descriptorRef>jar-with-dependencies</descriptorRef>
-                        </descriptorRefs>
-                    </configuration>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>2.4.3</version>
+                    <executions>
+                        <execution>
+                            <id>copy-resources</id>
+                            <phase>package</phase>
+                            <configuration>
+                                <outputDirectory>${project.build.directory}/appassembler/jsw/appcompdupe/lib</outputDirectory>
+                                <resources>          
+                                    <resource>
+                                        <directory>${basedir}/daemonwrapper</directory>
+                                        <filtering>true</filtering>
+                                    </resource>
+                                </resources>
+                                <!--<tasks>
+                                    <echo>deploy phase!</echo>
+                                    <copy file="${basedir}/daemonwrapper/wrapper.jar" todir="${project.build.directory}/appassembler/jsw/appcompdupe/lib"/>
+                                    <copy file="${basedir}/daemonwrapper/libwrapper.jnilib" todir="${project.build.directory}/appassembler/jsw/appcompdupe/lib"/>
+                                </tasks>-->
+                            </configuration>
+                            <goals>
+                                <goal>copy-resources</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                 </plugin>
             </plugins>
         </pluginManagement>
