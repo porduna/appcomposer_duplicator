@@ -2,7 +2,10 @@ package http;
 
 import org.restlet.Application;
 import org.restlet.Component;
+import org.restlet.engine.Engine;
+import org.restlet.Server;
 import org.restlet.data.Protocol;
+import org.restlet.ext.jetty.HttpServerHelper;
 
 import appcomposer.AppTranslator;
 import appcomposer.IAppTranslator;
@@ -20,7 +23,14 @@ public class RestletMain {
 		translator.connect();
 		
 		final Component component = new Component();
-		component.getServers().add(Protocol.HTTP, 8182);
+        final int port = 8182;
+        // This uses the Internal connector
+		// component.getServers().add(Protocol.HTTP, port);
+
+        // This uses the Jetty connector
+        Engine.getInstance().getRegisteredServers().clear() ;
+        HttpServerHelper helper = new HttpServerHelper(new Server(Protocol.HTTP, port, component));
+        helper.start();
 
 		// Create an application
 		final Application application = new TranslatorApplication(translator);
