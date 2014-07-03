@@ -16,21 +16,39 @@ import appcomposer.IAppTranslator;
  * @author Pablo Orduña <pablo.orduna@deusto.es>
  */
 public class RestletMain {
+    
+    public static final boolean USE_JETTY = true;
+
+
+    public static final String MONGO_USERNAME = "deusto";
+    public static final String MONGO_PASSWORD = "t3stingmongolab";
+    public static final String MONGO_HOST = "ds049288.mongolab.com";
+    public static final int MONGO_PORT = 49288;
+
+    /*
+    public static final String MONGO_USERNAME = null;
+    public static final String MONGO_PASSWORD = null;
+    public static final String MONGO_HOST = "localhost";
+    public static final int MONGO_PORT = 27017;
+    */
 
 	public static void main(String[] args) throws Exception {
 		//final IAppTranslator translator = new AppTranslator();
-        final AppTranslator translator = new AppTranslator("ds049288.mongolab.com", 49288, "deusto", "t3stingmongolab");
+        final AppTranslator translator = new AppTranslator(MONGO_HOST, MONGO_PORT, MONGO_USERNAME, MONGO_PASSWORD);
 		translator.connect();
 		
 		final Component component = new Component();
         final int port = 8182;
-        // This uses the Internal connector
-		// component.getServers().add(Protocol.HTTP, port);
 
-        // This uses the Jetty connector
-        Engine.getInstance().getRegisteredServers().clear() ;
-        HttpServerHelper helper = new HttpServerHelper(new Server(Protocol.HTTP, port, component));
-        helper.start();
+        if (USE_JETTY) {
+            // This uses the Jetty connector
+            Engine.getInstance().getRegisteredServers().clear() ;
+            HttpServerHelper helper = new HttpServerHelper(new Server(Protocol.HTTP, port, component));
+            helper.start();
+        } else {
+            // This uses the Internal connector
+	    	component.getServers().add(Protocol.HTTP, port);
+        }
 
 		// Create an application
 		final Application application = new TranslatorApplication(translator);
