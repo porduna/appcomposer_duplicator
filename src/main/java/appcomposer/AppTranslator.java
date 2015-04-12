@@ -31,6 +31,7 @@ public class AppTranslator implements IAppTranslator {
 	private final MongoCredential credential;
 	private MongoClient mongoClient = null;
 	private DBCollection bundles = null;
+	private DBCollection translationUrls = null;
 	
 	public AppTranslator() {
 		this("localhost", 27017, null, null, AppTranslator.DB_NAME);
@@ -60,6 +61,7 @@ public class AppTranslator implements IAppTranslator {
 		
 			final DB db  = mongoClient.getDB( this.dbName );
 			this.bundles = db.getCollection(AppTranslator.COLLECTION);
+			this.translationUrls = db.getCollection("translation_urls");
 		} catch (UnknownHostException e) {
 			throw new AppComposerException("Error connecting to MongoDB", e);
 		}
@@ -76,15 +78,15 @@ public class AppTranslator implements IAppTranslator {
 	}
 	
 	@Override
-	public Map<String, String> translate(String url, String lang, String targetAge) throws AppComposerException {
+	public Map<String, String> translate(String url, String translationUrl, String lang, String targetAge) throws AppComposerException {
 		if (lang.length() == 2) {
 			lang = lang + "_ALL";
 		}
-		return translate(url, lang + "_" + targetAge);
+		return translate(url, translationUrl, lang + "_" + targetAge);
 	}
 
 	@Override
-	public Map<String, String> translate(String url, String bundle) throws AppComposerException {
+	public Map<String, String> translate(String url, String translationUrl, String bundle) throws AppComposerException {
 		if (bundle.split("_").length == 2) {
 			// e.g., en_16years converts into en_ALL_16years 
 			bundle = bundle.replace("_", "_ALL_");
@@ -92,10 +94,17 @@ public class AppTranslator implements IAppTranslator {
 		if (!isConnected())
 			throw new AppComposerException("AppTranslator not connected. Did you call connect?");
 		
-		final BasicDBObject query = new BasicDBObject("spec", url).append("bundle", bundle);
-		final DBObject obj = this.bundles.findOne(query);
-		if (obj == null)
-			return null;
+		BasicDBObject query = new BasicDBObject("spec", url).append("bundle", bundle);
+		DBObject obj = this.bundles.findOne(query);
+		if (obj == null) {
+            // Searching by app did not work. Let's try by translation url
+            query = new BasicDBObject("url", url).append("bundle", bundle);
+            obj = this.translationUrls.findOne(query);
+            if (obj == null) {
+                // We definitely have nothing
+                return null;
+            }
+        } 
 		
 		final Object data = obj.get("data");
 		if (!(data instanceof String)) 

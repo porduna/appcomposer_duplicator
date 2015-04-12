@@ -6,10 +6,13 @@ The AppComposer Duplicator is a service that connects to the [App Composer](http
 1. app_url=http://go-lab.gw.utwente.nl/producp/src/main/webapp/conceptmapper.xml
 app_url provides the URL of the OpenSocial gadget to be translated
 
-2. lang=pt_ALL
+2. translation_url=http://go-lab.gw.utwente.nl/producp/src/main/webapp/conceptmapper.xml
+translation_url provides the URL of the default translation
+
+3. lang=pt_ALL
 lang provides the language for which you want to get a language
 
-3. target=ALL
+4. target=ALL
 target provides the target group for which you want to get a translation. The target group is an age group that enables a finer grained (targeted) translation
 
 The service (once started) runs on http://localhost:8182/serve

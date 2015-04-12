@@ -32,11 +32,14 @@ public class TranslationResource extends ServerResource {
 		
 		// Validate the parameters
 		final String url = getQueryValue("app_url");
+		final String translationUrl = getQueryValue("translation_url");
 		final String lang = getQueryValue("lang");
 		final String targetAge = getQueryValue("target");
 		
 		if (url == null) 
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "Missing app_url parameter");
+		if (translationUrl == null) 
+			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "Missing translation_url parameter");
 		if (lang == null) 
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "Missing lang parameter");
 		if (targetAge  == null) 
@@ -47,7 +50,7 @@ public class TranslationResource extends ServerResource {
 		
 		final Map<String, String> translations;
 		try {
-			translations = translator.translate(url, lang, targetAge);
+			translations = translator.translate(url, translationUrl, lang, targetAge);
 		} catch (AppComposerException e) {
 			e.printStackTrace();
 			throw new ResourceException(Status.SERVER_ERROR_INTERNAL, "Error translating the application");
