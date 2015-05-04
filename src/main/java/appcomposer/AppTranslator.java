@@ -115,8 +115,11 @@ public class AppTranslator implements IAppTranslator {
 			final DBObject dictionary = (DBObject)JSON.parse(stringDictionary);
 			final Set<String> keys = dictionary.keySet();
 			final Map<String, String> translations = new HashMap<String, String>(keys.size());
-			for(String key : keys)
-				translations.put(key, dictionary.get(key).toString());
+            if (dictionary != null && keys != null) {
+                for(String key : keys) 
+                    if (dictionary.containsKey(key) && dictionary.get(key) != null)
+                        translations.put(key, dictionary.get(key).toString());
+            }
 			
 			return translations;
 		} catch (Exception e) {
