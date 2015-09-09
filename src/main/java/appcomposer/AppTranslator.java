@@ -101,7 +101,21 @@ public class AppTranslator implements IAppTranslator {
             query = new BasicDBObject("url", url).append("bundle", bundle);
             obj = this.translationUrls.findOne(query);
             if (obj == null) {
-                // We definitely have nothing
+                // It seems that we do not have anything. Let's check without the extra information after the # if it is there
+
+                // First without the # in the URL
+                if (url.contains("#")) {
+                    final String urlWithoutHash = url.split("#")[0];
+                    return translate(urlWithoutHash, translationUrl, bundle);
+                }
+
+                // Then without the # in the translationUrl
+                if (translationUrl.contains("#")) {
+                    final String translationUrlWithoutHash = translationUrl.split("#")[0];
+                    return translate(url, translationUrlWithoutHash, bundle);
+                }
+
+                // Here all the combinations have been tried
                 return null;
             }
         } 
