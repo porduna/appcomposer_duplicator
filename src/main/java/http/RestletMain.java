@@ -57,7 +57,7 @@ public class RestletMain {
 		component.getDefaultHost().attach(application);
 		component.start();
 		
-		System.out.println("Go to http://localhost:8182/serve?app_url=http://go-lab.gw.utwente.nl/production/conceptmapper_v1/tools/conceptmap/src/main/webapp/conceptmapper.xml&lang=de_ALL&target=ALL");
+		System.out.println("Go to http://localhost:8182/serve?app_url=http://go-lab.gw.utwente.nl/production/conceptmapper_v1/tools/conceptmap/src/main/webapp/conceptmapper.xml&translation_url=http://go-lab.gw.utwente.nl/production/conceptmapper_v1/tools/conceptmap/src/main/webapp/languages/conceptmapper_en_ALL.xml&lang=de_ALL&target=ALL");
 	}
 
 }

@@ -68,7 +68,7 @@ You can use the symbolic link provided in the same directory as the pom.xml file
 
 You can test the service on the commandline as follows:
 
-    curl -v -L -G -d "app_url=http://go-lab.gw.utwente.nl/production/conceptmapper_v1/tools/conceptmap/src/main/webapp/conceptmapper.xml&lang=es_ALL&target=ALL" http://localhost:8182/serve
+    curl -v -L -G -d "app_url=http://go-lab.gw.utwente.nl/production/conceptmapper_v1/tools/conceptmap/src/main/webapp/conceptmapper.xml&translation_url=http://go-lab.gw.utwente.nl/production/conceptmapper_v1/tools/conceptmap/src/main/webapp/languages/conceptmapper_en_ALL.xml&lang=es_ALL&target=ALL" http://localhost:8182/serve
 
 Credentials
 -----------
