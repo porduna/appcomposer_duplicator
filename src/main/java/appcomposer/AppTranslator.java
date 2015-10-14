@@ -46,7 +46,7 @@ public class AppTranslator implements IAppTranslator {
 		this.host = host;
 		this.port = port;
 		if (username != null && password != null)
-			this.credential = MongoCredential.createMongoCRCredential(username, dbName, password.toCharArray());
+			this.credential = MongoCredential.createCredential(username, dbName, password.toCharArray());
 		else
 			this.credential = null;
 	}
@@ -131,7 +131,7 @@ public class AppTranslator implements IAppTranslator {
 			final Map<String, String> translations = new HashMap<String, String>(keys.size());
             if (dictionary != null && keys != null) {
                 for(String key : keys) 
-                    if (dictionary.containsKey(key) && dictionary.get(key) != null)
+                    if (dictionary.containsField(key) && dictionary.get(key) != null)
                         translations.put(key, dictionary.get(key).toString());
             }
 			

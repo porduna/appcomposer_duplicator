@@ -15,7 +15,7 @@ public class Main {
 			if (translator.translate("", "", "") != null)
 				System.err.println("Error: null expected when wrong arguments are provided");
 			
-			final Map<String, String> translations = translator.translate("http://go-lab.gw.utwente.nl/production/conceptmapper_v1/tools/conceptmap/src/main/webapp/conceptmapper.xml", "de_ALL", "ALL");
+			final Map<String, String> translations = translator.translate("http://go-lab.gw.utwente.nl/sources/tools/conceptmap/src/main/webapp/conceptmapper.xml", "de_ALL", "ALL");
 			if(!translations.get("ut_tools_conceptmapper_yes").equals("Ja")) {
 				System.err.println("Error: yes in german should be Ja");
 			}
