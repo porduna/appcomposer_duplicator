@@ -98,7 +98,7 @@ public class AppTranslator implements IAppTranslator {
 		DBObject obj = this.bundles.findOne(query);
 		if (obj == null) {
             // Searching by app did not work. Let's try by translation url
-            query = new BasicDBObject("url", url).append("bundle", bundle);
+            query = new BasicDBObject("url", translationUrl).append("bundle", bundle);
             obj = this.translationUrls.findOne(query);
             if (obj == null) {
                 // It seems that we do not have anything. Let's check without the extra information after the # if it is there
