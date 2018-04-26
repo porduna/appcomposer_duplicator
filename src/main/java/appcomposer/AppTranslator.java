@@ -115,6 +115,14 @@ public class AppTranslator implements IAppTranslator {
                     return translate(url, translationUrlWithoutHash, bundle);
                 }
 
+                if (bundle.indexOf("_ALL_") < 0) {
+                    final String [] parts = bundle.split("_");
+                    final String language = parts[0];
+                    final String target = parts[2];
+                    final String newBundle = language + "_ALL_" + target;
+                    return translate(url, translationUrl, newBundle);
+                }
+
                 // Here all the combinations have been tried
                 return null;
             }
