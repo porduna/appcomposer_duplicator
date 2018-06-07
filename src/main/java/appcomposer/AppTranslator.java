@@ -97,36 +97,36 @@ public class AppTranslator implements IAppTranslator {
 		BasicDBObject query = new BasicDBObject("spec", url).append("bundle", bundle);
 		DBObject obj = this.bundles.findOne(query);
 		if (obj == null) {
-            // Searching by app did not work. Let's try by translation url
-            query = new BasicDBObject("url", translationUrl).append("bundle", bundle);
-            obj = this.translationUrls.findOne(query);
-            if (obj == null) {
-                // It seems that we do not have anything. Let's check without the extra information after the # if it is there
+			// Searching by app did not work. Let's try by translation url
+			query = new BasicDBObject("url", translationUrl).append("bundle", bundle);
+			obj = this.translationUrls.findOne(query);
+			if (obj == null) {
+				// It seems that we do not have anything. Let's check without the extra information after the # if it is there
 
-                // First without the # in the URL
-                if (url.contains("#")) {
-                    final String urlWithoutHash = url.split("#")[0];
-                    return translate(urlWithoutHash, translationUrl, bundle);
-                }
+				// First without the # in the URL
+				if (url.contains("#")) {
+					final String urlWithoutHash = url.split("#")[0];
+					return translate(urlWithoutHash, translationUrl, bundle);
+				}
 
-                // Then without the # in the translationUrl
-                if (translationUrl.contains("#")) {
-                    final String translationUrlWithoutHash = translationUrl.split("#")[0];
-                    return translate(url, translationUrlWithoutHash, bundle);
-                }
+				// Then without the # in the translationUrl
+				if (translationUrl.contains("#")) {
+					final String translationUrlWithoutHash = translationUrl.split("#")[0];
+					return translate(url, translationUrlWithoutHash, bundle);
+				}
 
-                if (bundle.indexOf("_ALL_") < 0) {
-                    final String [] parts = bundle.split("_");
-                    final String language = parts[0];
-                    final String target = parts[2];
-                    final String newBundle = language + "_ALL_" + target;
-                    return translate(url, translationUrl, newBundle);
-                }
+				if (bundle.indexOf("_ALL_") < 0) {
+					final String [] parts = bundle.split("_");
+					final String language = parts[0];
+					final String target = parts[2];
+					final String newBundle = language + "_ALL_" + target;
+					return translate(url, translationUrl, newBundle);
+				}
 
-                // Here all the combinations have been tried
-                return null;
-            }
-        } 
+				// Here all the combinations have been tried
+				return null;
+			}
+		} 
 		
 		final Object data = obj.get("data");
 		if (!(data instanceof String)) 
@@ -137,11 +137,11 @@ public class AppTranslator implements IAppTranslator {
 			final DBObject dictionary = (DBObject)JSON.parse(stringDictionary);
 			final Set<String> keys = dictionary.keySet();
 			final Map<String, String> translations = new HashMap<String, String>(keys.size());
-            if (dictionary != null && keys != null) {
-                for(String key : keys) 
-                    if (dictionary.containsField(key) && dictionary.get(key) != null)
-                        translations.put(key, dictionary.get(key).toString());
-            }
+			if (dictionary != null && keys != null) {
+				for(String key : keys) 
+					if (dictionary.containsField(key) && dictionary.get(key) != null)
+						translations.put(key, dictionary.get(key).toString());
+			}
 			
 			return translations;
 		} catch (Exception e) {
