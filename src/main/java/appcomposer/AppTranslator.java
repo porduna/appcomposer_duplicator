@@ -123,13 +123,13 @@ public class AppTranslator implements IAppTranslator {
 					return translate(url, translationUrl, newBundle);
 				}
 
-                if (url.startsWith("http://")) {
-                    final String httpsUrl = url.replaceFirst("http://", "https://");
+                if (url.startsWith("https://")) {
+                    final String httpsUrl = url.replaceFirst("https://", "http://");
                     return translate(httpsUrl, translationUrl, bundle);
                 }
 
-                if (translationUrl.startsWith("http://")) {
-                    final String httpsTranslationUrl = translationUrl.replaceFirst("http://", "https://");
+                if (translationUrl.startsWith("https://")) {
+                    final String httpsTranslationUrl = translationUrl.replaceFirst("https://", "http://");
                     return translate(url, httpsTranslationUrl, bundle);
                 }
 
