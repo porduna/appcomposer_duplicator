@@ -125,12 +125,12 @@ public class AppTranslator implements IAppTranslator {
 
                 if (url.startsWith("http://")) {
                     final String httpsUrl = url.replaceFirst("http://", "https://");
-                    return translate(httpsUrl, translationUrl, newBundle);
+                    return translate(httpsUrl, translationUrl, bundle);
                 }
 
                 if (translationUrl.startsWith("http://")) {
                     final String httpsTranslationUrl = translationUrl.replaceFirst("http://", "https://");
-                    return translate(url, httpsTranslationUrl, newBundle);
+                    return translate(url, httpsTranslationUrl, bundle);
                 }
 
 				// Here all the combinations have been tried
